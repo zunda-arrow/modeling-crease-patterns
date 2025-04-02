@@ -3,9 +3,15 @@ from __future__ import annotations
 import math
 import itertools
 import typing as t
+from dataclasses import dataclass
 
 if t.TYPE_CHECKING:
 	from vertex import Vertex
+
+@dataclass
+class FoldTree:
+	crease_index: int
+	next_crease: Dict['M' | 'V', FoldTree | None]
 
 def find_adjacent(index, array):
 	if len(array) < 2:
@@ -67,8 +73,12 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
-		# The function only consider ONE orientation of mountains and valleys
-		return 1
+		# The function considers both orientations of mountains and valleys
+		return FoldTree(original_indecies[0], {
+				'M': FoldTree(original_indecies[1], {'V': None}),
+				'V': FoldTree(original_indecies[1], {'M': None}),
+			}
+		)
 	
 	lowest_index = creases.index(sorted(creases)[0])
 
@@ -106,7 +116,13 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 	original_indecies = list(filter(lambda x: x != None, original_indecies))
 
 
-	return options * build_fold_tree_from_numbers(creases, original_indecies)
+	if options == 2:
+		return FoldTree(original_indecies[lowest_index], {
+				'M': build_fold_tree_from_numbers(creases, original_indecies),
+				'V': build_fold_tree_from_numbers(creases, original_indecies)
+			}
+		)
+	return "ERROR"
 
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):
