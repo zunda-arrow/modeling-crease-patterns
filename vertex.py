@@ -21,6 +21,8 @@ class Angle:
 	# The vertex this edge touches or None if this is the end of the paper
 	vertex: Vertex | None = None
 
+	fold_type: 'mountain' | 'valley' | 'unknown' = 'unknown'
+
 @dataclass
 class Vertex:
 	edges: list[Angle]
