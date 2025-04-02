@@ -1,6 +1,8 @@
 import math
 import itertools
 
+from vertex import Vertex
+
 def find_adjacent(index, array):
 	if len(array) < 2:
 		return list(filter(lambda x: x != index, [1, 0]))[0]
@@ -53,7 +55,7 @@ def verify_kawasaki(creases):
 	assert a == b, "Kawasaki's Theorem is not satisfied"
 
 # Basic find fold number algoritm
-def build_fold_tree(creases):
+def build_fold_tree_from_numbers(creases):
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
@@ -92,7 +94,7 @@ def build_fold_tree(creases):
 
 	return options * build_fold_tree(creases)
 
-print(build_fold_tree([30, 30, 70, 40, 80, 110]))
-print(build_fold_tree([20, 70, 105, 30, 55, 80]))
-print(build_fold_tree([20, 20, 40, 60, 60, 40, 60, 60]))
+def build_fold_tree(vertex: Vertex):
+	angles = vertex.get_angles()
+	return build_fold_tree_from_numbers(angles)
 

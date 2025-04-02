@@ -19,6 +19,9 @@ class Vertex:
 			raise Exception(f"Angle sum does not equal 360. Found sum={angle}.")
 
 
+	def get_angles():
+		return list(map(lambda x: x.degree, self.edges))
+
 if __name__ == '__main__':
 	vertex = Vertex(
 		edges=[Angle(180), Angle(180)]
