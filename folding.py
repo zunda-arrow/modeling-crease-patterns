@@ -59,7 +59,11 @@ def verify_kawasaki(creases):
 	assert a == b, "Kawasaki's Theorem is not satisfied"
 
 # Basic find fold number algoritm
-def build_fold_tree_from_numbers(creases):
+# Original indecies keeps track of where a crease was "from"
+def build_fold_tree_from_numbers(creases, original_indecies):
+	print(creases)
+	print(original_indecies)
+	
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
@@ -83,6 +87,7 @@ def build_fold_tree_from_numbers(creases):
 	# Then we remove the used of verticies
 	for i in same:
 		creases[i] = None
+		original_indecies[i] = None
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
@@ -91,16 +96,20 @@ def build_fold_tree_from_numbers(creases):
 		creases[left] = creases[left] + creases[right] - crease_size
 		creases[right] = None
 
+		original_indecies[right] = None
+
 	if same_amount % 2 == 0:
 		# We lose an even number of creases, do nothing
 		pass
 
 	creases = list(filter(lambda x: x != None, creases))
+	original_indecies = list(filter(lambda x: x != None, original_indecies))
 
-	return options * build_fold_tree_from_numbers(creases)
+
+	return options * build_fold_tree_from_numbers(creases, original_indecies)
 
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):
 	angles = vertex.get_angles()
-	return build_fold_tree_from_numbers(angles)
+	return build_fold_tree_from_numbers(angles, list(range(len(angles))))
 

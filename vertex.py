@@ -41,7 +41,7 @@ class Vertex:
 
 if __name__ == '__main__':
 	vertex = Vertex(
-		edges=[Angle(135), Angle(135), Angle(45), Angle(45)]
+		edges=[Angle(45), Angle(45), Angle(135), Angle(135), ]
 	)
 
 	print(build_fold_tree(vertex))
