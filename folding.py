@@ -63,7 +63,8 @@ def build_fold_tree_from_numbers(creases):
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
-		return 2
+		# The function only consider ONE orientation of mountains and valleys
+		return 1
 	
 	lowest_index = creases.index(sorted(creases)[0])
 
@@ -96,7 +97,7 @@ def build_fold_tree_from_numbers(creases):
 
 	creases = list(filter(lambda x: x != None, creases))
 
-	return options * build_fold_tree(creases)
+	return options * build_fold_tree_from_numbers(creases)
 
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):

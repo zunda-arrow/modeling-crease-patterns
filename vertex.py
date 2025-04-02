@@ -21,6 +21,8 @@ class Angle:
 	# The vertex this edge touches or None if this is the end of the paper
 	vertex: Vertex | None = None
 
+	# This program only looks for one solution set. We can flip the page to find the other solution set, so I am ignoring that
+	# to make this easier to program.
 	fold_type: 'mountain' | 'valley' | 'unknown' = 'unknown'
 
 @dataclass
@@ -39,7 +41,7 @@ class Vertex:
 
 if __name__ == '__main__':
 	vertex = Vertex(
-		edges=[Angle(180), Angle(180)]
+		edges=[Angle(135), Angle(135), Angle(45), Angle(45)]
 	)
 
 	print(build_fold_tree(vertex))
