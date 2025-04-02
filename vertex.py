@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from folding import build_fold_tree
 
 @dataclass
 class Angle:
@@ -19,11 +20,13 @@ class Vertex:
 			raise Exception(f"Angle sum does not equal 360. Found sum={angle}.")
 
 
-	def get_angles():
+	def get_angles(self):
 		return list(map(lambda x: x.degree, self.edges))
 
 if __name__ == '__main__':
 	vertex = Vertex(
 		edges=[Angle(180), Angle(180)]
 	)
+
+	print(build_fold_tree(vertex))
 

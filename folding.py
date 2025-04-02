@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 import math
 import itertools
+import typing as t
 
-from vertex import Vertex
+if t.TYPE_CHECKING:
+	from vertex import Vertex
 
 def find_adjacent(index, array):
 	if len(array) < 2:
