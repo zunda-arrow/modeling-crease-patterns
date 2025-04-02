@@ -98,6 +98,7 @@ def build_fold_tree_from_numbers(creases):
 
 	return options * build_fold_tree(creases)
 
+# Build the fold tree for both sets of mountains and valleys
 def build_fold_tree(vertex: Vertex):
 	angles = vertex.get_angles()
 	return build_fold_tree_from_numbers(angles)

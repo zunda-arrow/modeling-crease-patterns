@@ -2,6 +2,17 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from folding import build_fold_tree
+import itertools
+
+def _verify_kawasaki(creases):
+	a = 0
+	b = 0
+
+	for aa, bb in itertools.batched(creases, n=2):
+		a += aa
+		b += bb
+
+	assert a == b, "Kawasaki's Theorem is not satisfied"
 
 @dataclass
 class Angle:
@@ -15,7 +26,8 @@ class Vertex:
 	edges: list[Angle]
 
 	def __post_init__(self):
-		angle = sum(map(lambda x: x.degree, self.edges))
+		angle = sum(self.get_angles())
+		_verify_kawasaki(self.get_angles())
 		if (angle != 360):
 			raise Exception(f"Angle sum does not equal 360. Found sum={angle}.")
 
