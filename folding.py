@@ -13,6 +13,15 @@ class FoldTree:
 	crease_index: int
 	next_crease: Dict['M' | 'V', FoldTree | None]
 
+	def one_option(self, out):
+		k, v = list(self.next_crease.items())[0]
+		print(v)
+		if v:
+			out[self.crease_index] = k
+			v.one_option(out)
+
+		return out
+
 def find_adjacent(index, array):
 	if len(array) < 2:
 		return list(filter(lambda x: x != index, [1, 0]))[0]

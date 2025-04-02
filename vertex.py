@@ -44,5 +44,6 @@ if __name__ == '__main__':
 		edges=[Angle(25), Angle(65), Angle(155), Angle(115)]
 	)
 
-	print(build_fold_tree(vertex))
+	options = build_fold_tree(vertex)
+	print(options.one_option([None, None, None, None]))
 
