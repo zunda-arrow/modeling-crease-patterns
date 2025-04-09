@@ -15,9 +15,8 @@ class FoldTree:
 
 	def one_option(self, out):
 		k, v = list(self.next_crease.items())[0]
-		print(v)
-		if v:
-			out[self.crease_index] = k
+		out[self.crease_index] = k
+		if v != None:
 			v.one_option(out)
 
 		return out
@@ -76,16 +75,14 @@ def verify_kawasaki(creases):
 # Basic find fold number algoritm
 # Original indecies keeps track of where a crease was "from"
 def build_fold_tree_from_numbers(creases, original_indecies):
-	print(creases)
-	print(original_indecies)
-	
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
 		# The function considers both orientations of mountains and valleys
+		print(original_indecies)
 		return FoldTree(original_indecies[0], {
-				'M': FoldTree(original_indecies[1], {'V': None}),
-				'V': FoldTree(original_indecies[1], {'M': None}),
+				'M': FoldTree(original_indecies[1], {'M': None}),
+				'V': FoldTree(original_indecies[1], {'V': None}),
 			}
 		)
 	
@@ -102,6 +99,11 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 
 	if same_amount % 2 == 0:
 		options = math.comb(same_amount + 1, math.floor(same_amount / 2) + 1)
+
+	my_index = original_indecies[lowest_index]
+	parter_index = my_index - 1
+	if (parter_index < 0):
+		parter_index = original_indecies[-1]
 
 	# Then we remove the used of verticies
 	for i in same:
@@ -124,11 +126,11 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 	creases = list(filter(lambda x: x != None, creases))
 	original_indecies = list(filter(lambda x: x != None, original_indecies))
 
-
+	print(my_index, parter_index)
 	if options == 2:
-		return FoldTree(original_indecies[lowest_index], {
-				'M': build_fold_tree_from_numbers(creases, original_indecies),
-				'V': build_fold_tree_from_numbers(creases, original_indecies)
+		return FoldTree(my_index, {
+				'M': FoldTree(parter_index, {'V': build_fold_tree_from_numbers(creases, original_indecies)}),
+				'V': FoldTree(parter_index, {'M': build_fold_tree_from_numbers(creases, original_indecies)})
 			}
 		)
 	return "ERROR"
