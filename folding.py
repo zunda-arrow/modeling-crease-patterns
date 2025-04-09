@@ -13,6 +13,24 @@ class FoldTree:
 	crease_index: int
 	next_crease: Dict['M' | 'V', FoldTree | None]
 
+	def all_options(self):
+		total_options = []
+	
+		for option in self.next_crease.items():
+			k, v = option
+
+			if v != None:
+				options_following = v.all_options()
+			else:
+				options_following = [[None, None, None, None]]
+
+			for following in options_following:
+				following[self.crease_index] = k
+
+			total_options += options_following
+
+		return total_options
+
 	def one_option(self, out):
 		k, v = list(self.next_crease.items())[0]
 		out[self.crease_index] = k
