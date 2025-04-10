@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from folding import build_fold_tree
+from pprint import pprint
 import itertools
 
 def _verify_kawasaki(creases):
@@ -48,4 +49,5 @@ if __name__ == '__main__':
 	)
 
 	options = build_fold_tree(vertex)
+	pprint(options.one_option())
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import itertools
+from pprint import pprint
 import typing as t
 from dataclasses import dataclass
 import itertools
@@ -15,7 +16,20 @@ class FoldTree:
 	edge_count: int
 
 	crease_indecies: list[int]
-	next_crease: list[tuple[list['M' | 'V'], FoldTree]]
+	next_crease: list[tuple['M' | 'V']]
+	next: FoldTree
+
+	def one_option(self, options = None):
+		if options == None:
+			options = [None] * self.edge_count
+
+		for crease, type in zip(self.crease_indecies, self.next_crease[0]):
+			options[crease] = type
+
+		if self.next:
+			self.next.one_option(options)
+
+		return options
 
 	def all_options(self):
 		total_options = []
@@ -53,10 +67,11 @@ def find_adjacent_with_same_value(index, creases):
 		return []
 
 	looking_at = index + 1
-	while looking_at != index:
+	while True:
 		if looking_at == len(creases):
 			looking_at = 0
-			continue
+		if looking_at == index:
+			break
 		if creases[looking_at] == creases[index]:
 			out += [looking_at]
 		else:
@@ -64,10 +79,11 @@ def find_adjacent_with_same_value(index, creases):
 		looking_at+=1
 
 	looking_at = index - 1
-	while looking_at != index:
+	while True:
 		if looking_at == -1:
 			looking_at = len(creases) - 1
-			continue
+		if looking_at == index:
+			break
 		if creases[looking_at] == creases[index]:
 			out += [looking_at]
 		else:
@@ -76,7 +92,8 @@ def find_adjacent_with_same_value(index, creases):
 
 	out += [index]
 
-	return out
+	# dedup the list
+	return list(set(out))
 
 def verify_kawasaki(creases):
 	a = 0
@@ -97,32 +114,46 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	verify_kawasaki(creases)
 
-	if len(creases) == 2:
-		# The function considers both orientations of mountains and valleys
-		return FoldTree(edge_count, original_indecies[0], {
-				'M': FoldTree(edge_count, original_indecies[1], {'M': None}),
-				'V': FoldTree(edge_count, original_indecies[1], {'V': None}),
-			}
-		)
-	
-	lowest_index = creases.index(sorted(creases)[0])
+	if len(creases) == 0:
+		return None
 
+	if len(creases) == 2:
+		return FoldTree(edge_count, [original_indecies[0], original_indecies[1]], [['M', 'M'], ['V', 'V']], None)
+
+	lowest_index = creases.index(sorted(creases)[0])
 	crease_size = creases[lowest_index]
 
 	same = find_adjacent_with_same_value(lowest_index, creases)
 	same_amount = len(same)
+	mapped_same = list(map(lambda x: original_indecies[x], same))
 
-	my_index = original_indecies[lowest_index]
-	parter_index = my_index - 1
-	if (parter_index < 0):
-		parter_index = original_indecies[-1]
+	# The index of the crease before the repeating pattern
+	start = lowest_index
+	number_checked = 0
+	while start in same:
+		start += 1
+		if start >= len(creases):
+			start = 0
 
-	# First find the options
+		if number_checked >= len(original_indecies):
+			parter_index = None
+			break
+		number_checked += 1
+	else:
+		parter_index = original_indecies[start]
+
+	creases_that_will_be_folded = []
+	if parter_index != None:
+		creases_that_will_be_folded = [parter_index, *mapped_same]
+	else:
+		creases_that_will_be_folded = mapped_same
+
+	# Map the itertools combinations to the original indecies
 	def map_comb(comb):
 		out = []
 		for x in comb:
 			# index 0 is the crease before the repeated creases
-			out.append(list(map(lambda y: parter_index if y == 0 else same[y - 1], x)))
+			out.append(list(map(lambda y: [*creases_that_will_be_folded, creases_that_will_be_folded[0]][y], x)))
 		return out
 
 	if same_amount % 2 == 1:
@@ -152,18 +183,19 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	remaining_creases = list(filter(lambda x: x != None, creases))
 	remaining_original_indecies = list(filter(lambda x: x != None, original_indecies))
 
+	# Then lets do the same on the remaining!
+	next = build_fold_tree_from_numbers(remaining_creases, remaining_original_indecies, edge_count)
+
 	out_options = []
 
 	for combination in combinations:
 		# We say everything in the combination is a mountain, everything else is a valley
 		mountains = combination
-		valleys = list(filter(lambda x: x not in combination, [parter_index, *same]))
+		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
-		indecies = []
 		creases = []
 
-		for crease in [parter_index, *same]:
-			indecies += [crease]
+		for crease in creases_that_will_be_folded:
 			if crease in mountains:
 				creases += ['M']
 			elif crease in valleys:
@@ -171,17 +203,9 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 			else:
 				raise Exception("Crease not in mountain or valleys")
 
+		out_options += [creases]
 
-		out_options += [FoldTree(edge_count, indecies, creases)]
-
-	# Then lets do the same on the remaining!
-	if len(remaining_creases) == 0:
-		return out_options
-
-	next = build_fold_tree_from_numbers(remaining_creases, remaining_original_indecies, edge_count)
-
-	return None
-
+	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):
