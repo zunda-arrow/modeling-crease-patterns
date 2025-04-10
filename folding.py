@@ -195,16 +195,15 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		mountains = combination
 		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
-		creases_set_one = []
-		creases_set_two = []
+		creases = []
 
 		for crease in creases_that_will_be_folded:
 			if crease in mountains:
-				creases_set_one += ['M']
-				creases_set_two += ['V']
+				creases += ['M']
+				creases += ['V']
 			elif crease in valleys:
-				creases_set_one += ['V']
-				creases_set_two += ['M']
+				creases += ['V']
+				creases += ['M']
 			else:
 				raise Exception("Crease not in mountain or valleys")
 
