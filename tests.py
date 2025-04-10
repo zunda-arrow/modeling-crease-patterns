@@ -2,12 +2,6 @@ from vertex import Vertex, Angle
 
 def vertex_tests():
 	vertex = Vertex(
-		edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
-	)
-	print(vertex.folds)
-	return
-
-	vertex = Vertex(
 		edges=[Angle(25), Angle(75), Angle(155), Angle(105)]
 	)
 

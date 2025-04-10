@@ -27,17 +27,20 @@ class Angle:
 
 @dataclass
 class Vertex:
-	edges: list[Angle]
+	edges: list[Angle] = None
 	folds: any = None
 
 	def __post_init__(self):
+		if self.edges != None:
+			self.set_edges(self.edges)
+
+	def set_edges(self, edges):
+		self.edges = edges
 		angle = sum(self.get_angles())
 		_verify_kawasaki(self.get_angles())
 		if (angle != 360):
 			raise Exception(f"Angle sum does not equal 360. Found sum={angle}.")
-
 		self.folds = find_all_folds(self)
-
 
 	def get_angles(self):
 		return list(map(lambda x: x.degree, self.edges))
