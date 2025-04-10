@@ -152,10 +152,12 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		return out
 
 	if same_amount % 2 == 1:
-		combinations = map_comb(itertools.combinations_with_replacement(range(same_amount), math.floor((same_amount + 1) / 2)))
+		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
+		print(combinations)
 
 	if same_amount % 2 == 0:
-		combinations = map_comb(itertools.combinations_with_replacement(range(same_amount), math.floor((same_amount / 2) + 1)))
+		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
+		print(combinations)
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
@@ -200,14 +202,12 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		for crease in creases_that_will_be_folded:
 			if crease in mountains:
 				creases += ['M']
-				creases += ['V']
 			elif crease in valleys:
 				creases += ['V']
-				creases += ['M']
 			else:
 				raise Exception("Crease not in mountain or valleys")
 
-		out_options += [creases_set_one, creases_set_two]
+		out_options += [creases]
 
 	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 

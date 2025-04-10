@@ -56,9 +56,9 @@ if __name__ == '__main__':
 	)
 
 	# Should have 24 ways
-	#vertex = Vertex(
-	#	edges=list(map(lambda x: Angle(x), [20, 20, 40, 60, 60, 40, 60, 60]))
-	#)
+	vertex = Vertex(
+		edges=list(map(lambda x: Angle(x), [20, 20, 40, 60, 60, 40, 60, 60]))
+	)
 
 	#vertex = Vertex(
 	#	edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
