@@ -121,7 +121,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		if number_checked >= len(original_indecies):
 			parter_index = None
 			# We reduce same_amount by 1, because later there should only be 4 choices to pick from, not 5
-			#same_amount -= 1
+			same_amount -= 1
 			break
 	else:
 		parter_index = original_indecies[start]
