@@ -4,6 +4,7 @@ import math
 import itertools
 import typing as t
 from dataclasses import dataclass
+import itertools
 
 if t.TYPE_CHECKING:
 	from vertex import Vertex
@@ -88,6 +89,10 @@ def verify_kawasaki(creases):
 # Basic find fold number algoritm
 # Original indecies keeps track of where a crease was "from"
 def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
+	# Clone the lists to make code easier to follow
+	creases = [*creases]
+	original_indecies = [*original_indecies]
+
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
@@ -108,9 +113,11 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	# First find the options
 	if same_amount % 2 == 1:
 		options = math.comb(same_amount + 1, math.floor((same_amount + 1) / 2))
+		combinations = list(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
 
 	if same_amount % 2 == 0:
 		options = math.comb(same_amount + 1, math.floor(same_amount / 2) + 1)
+		combinations = list(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
 
 	my_index = original_indecies[lowest_index]
 	parter_index = my_index - 1
@@ -138,13 +145,17 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	creases = list(filter(lambda x: x != None, creases))
 	original_indecies = list(filter(lambda x: x != None, original_indecies))
 
+	for combination in combinations:
+		# We say everything in the combination is a mountain, everything else is a valley
+		print(combination)
+		pass
+
 	if options == 2:
 		return FoldTree(edge_count, my_index, {
 				'M': FoldTree(edge_count, parter_index, {'V': build_fold_tree_from_numbers(creases, original_indecies, edge_count)}),
 				'V': FoldTree(edge_count, parter_index, {'M': build_fold_tree_from_numbers(creases, original_indecies, edge_count)})
 			}
 		)
-	return "ERROR"
 
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):
