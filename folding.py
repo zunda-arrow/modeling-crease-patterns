@@ -10,6 +10,9 @@ if t.TYPE_CHECKING:
 
 @dataclass
 class FoldTree:
+	# The total number of edges for this vertex
+	edge_count: int
+
 	crease_index: int
 	next_crease: Dict['M' | 'V', FoldTree | None]
 
@@ -22,7 +25,7 @@ class FoldTree:
 			if v != None:
 				options_following = v.all_options()
 			else:
-				options_following = [[None, None, None, None]]
+				options_following = [[None] * self.edge_count]
 
 			for following in options_following:
 				following[self.crease_index] = k
@@ -30,14 +33,6 @@ class FoldTree:
 			total_options += options_following
 
 		return total_options
-
-	def one_option(self, out):
-		k, v = list(self.next_crease.items())[0]
-		out[self.crease_index] = k
-		if v != None:
-			v.one_option(out)
-
-		return out
 
 def find_adjacent(index, array):
 	if len(array) < 2:
@@ -92,15 +87,14 @@ def verify_kawasaki(creases):
 
 # Basic find fold number algoritm
 # Original indecies keeps track of where a crease was "from"
-def build_fold_tree_from_numbers(creases, original_indecies):
+def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	verify_kawasaki(creases)
 
 	if len(creases) == 2:
 		# The function considers both orientations of mountains and valleys
-		print(original_indecies)
-		return FoldTree(original_indecies[0], {
-				'M': FoldTree(original_indecies[1], {'M': None}),
-				'V': FoldTree(original_indecies[1], {'V': None}),
+		return FoldTree(edge_count, original_indecies[0], {
+				'M': FoldTree(edge_count, original_indecies[1], {'M': None}),
+				'V': FoldTree(edge_count, original_indecies[1], {'V': None}),
 			}
 		)
 	
@@ -144,11 +138,10 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 	creases = list(filter(lambda x: x != None, creases))
 	original_indecies = list(filter(lambda x: x != None, original_indecies))
 
-	print(my_index, parter_index)
 	if options == 2:
-		return FoldTree(my_index, {
-				'M': FoldTree(parter_index, {'V': build_fold_tree_from_numbers(creases, original_indecies)}),
-				'V': FoldTree(parter_index, {'M': build_fold_tree_from_numbers(creases, original_indecies)})
+		return FoldTree(edge_count, my_index, {
+				'M': FoldTree(edge_count, parter_index, {'V': build_fold_tree_from_numbers(creases, original_indecies, edge_count)}),
+				'V': FoldTree(edge_count, parter_index, {'M': build_fold_tree_from_numbers(creases, original_indecies, edge_count)})
 			}
 		)
 	return "ERROR"
@@ -156,5 +149,5 @@ def build_fold_tree_from_numbers(creases, original_indecies):
 # Build the fold tree for only one set set of mountains and valleys
 def build_fold_tree(vertex: Vertex):
 	angles = vertex.get_angles()
-	return build_fold_tree_from_numbers(angles, list(range(len(angles))))
+	return build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles))
 
