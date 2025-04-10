@@ -61,27 +61,42 @@ def phantom_fold(vertex, vertex_map, constraints):
 
 	return out
 
+#def main():
+#	a = Vertex("a")
+#	b = Vertex("b")
+#	c = Vertex("c")
+#	d = Vertex("d")
+#
+#	ab = Edge(a, b)
+#	ac = Edge(a, c)
+#
+#	bc = Edge(b, c)
+#	bd = Edge(b, d)
+#
+#	cd = Edge(c, d)
+#	da = Edge(d, a)
+#
+#	a.set_edges([Angle(90, ab), Angle(90, ac), Angle(90), Angle(90)])
+#	b.set_edges([Angle(90, ab), Angle(90, bd), Angle(90), Angle(90)])
+#	c.set_edges([Angle(90, ac), Angle(90, cd), Angle(90), Angle(90)])
+#	d.set_edges([Angle(90, bd), Angle(90, cd), Angle(90), Angle(90)])
+#
+#	pprint(phantom_fold(a, [a, b, c, d], {}))
+
 def main():
 	a = Vertex("a")
 	b = Vertex("b")
 	c = Vertex("c")
-	d = Vertex("d")
 
 	ab = Edge(a, b)
 	ac = Edge(a, c)
-
 	bc = Edge(b, c)
-	bd = Edge(b, d)
 
-	cd = Edge(c, d)
-	da = Edge(d, a)
+	a.set_edges([Angle(135, ab), Angle(45, ac), Angle(45), Angle(135)])
+	b.set_edges([Angle(45, ab), Angle(135, bc), Angle(135), Angle(45)])
+	c.set_edges([Angle(45, ac), Angle(135, bc), Angle(135), Angle(45)])
 
-	a.set_edges([Angle(90, ab), Angle(90, ac), Angle(90), Angle(90)])
-	b.set_edges([Angle(90, ab), Angle(90, bd), Angle(90), Angle(90)])
-	c.set_edges([Angle(90, ac), Angle(90, cd), Angle(90), Angle(90)])
-	d.set_edges([Angle(90, bd), Angle(90, cd), Angle(90), Angle(90)])
-
-	pprint(phantom_fold(a, [a, b, c, d], {}))
+	pprint(phantom_fold(a, [a, b, c], {}))
 
 
 if __name__ == '__main__':
