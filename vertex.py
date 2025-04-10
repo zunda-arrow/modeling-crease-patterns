@@ -49,5 +49,5 @@ if __name__ == '__main__':
 	#)
 
 	options = build_fold_tree(vertex)
-	pprint(options.one_option())
+	pprint(options)
 
