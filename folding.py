@@ -152,10 +152,10 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		return out
 
 	if same_amount % 2 == 1:
-		combinations = map_comb(itertools.combinations(range(same_amount), math.floor((same_amount + 1) / 2)))
+		combinations = map_comb(itertools.combinations_with_replacement(range(same_amount), math.floor((same_amount + 1) / 2)))
 
 	if same_amount % 2 == 0:
-		combinations = map_comb(itertools.combinations(range(same_amount), math.floor((same_amount / 2) + 1)))
+		combinations = map_comb(itertools.combinations_with_replacement(range(same_amount), math.floor((same_amount / 2) + 1)))
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
