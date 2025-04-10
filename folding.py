@@ -33,21 +33,16 @@ class FoldTree:
 
 	def all_options(self):
 		total_options = []
-	
-		for option in self.next_crease.items():
-			k, v = option
 
-			if v != None:
-				options_following = v.all_options()
-			else:
-				options_following = [[None] * self.edge_count]
+		if self.next:
+			for option in self.next_crease:
+				option_set = self.next.all_options()
+				for choice in option_set:
+					total_options.append([*option, *choice])
 
-			for following in options_following:
-				following[self.crease_index] = k
-
-			total_options += options_following
-
-		return total_options
+			return total_options
+		else:
+			return self.next_crease
 
 def find_adjacent(index, array):
 	if len(array) < 2:
@@ -108,7 +103,6 @@ def verify_kawasaki(creases):
 # Basic find fold number algoritm
 # Original indecies keeps track of where a crease was "from"
 def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
-	print(creases, original_indecies)
 	# Clone the lists to make code easier to follow
 	creases = [*creases]
 	original_indecies = [*original_indecies]
@@ -167,10 +161,16 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		# We lose an odd number of creases
 		(left, _) = find_adjacent(same[0], creases)
 		(_, right) = find_adjacent(same[-1], creases)
-		creases[right] = creases[left] + creases[right] - crease_size
-		creases[left] = None
 
-		original_indecies[left] = None
+		# Investigate why this order matters
+		if creases[left] < creases[right]:
+			creases[left] = creases[left] + creases[right] - crease_size
+			creases[right] = None
+			original_indecies[right] = None
+		else:
+			creases[right] = creases[left] + creases[right] - crease_size
+			creases[left] = None
+			original_indecies[left] = None
 
 	if same_amount % 2 == 0:
 		# We lose an even number of creases, do nothing
@@ -191,6 +191,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	for combination in combinations:
 		# We say everything in the combination is a mountain, everything else is a valley
+		# To get the "flipped" version, we can simply flip the mountain and valley assignments
 		mountains = combination
 		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
@@ -209,7 +210,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 
 # Build the fold tree for only one set set of mountains and valleys
-def build_fold_tree(vertex: Vertex):
+def find_all_folds(vertex: Vertex):
 	angles = vertex.get_angles()
-	return build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles))
+	return build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles)).all_options()
 
