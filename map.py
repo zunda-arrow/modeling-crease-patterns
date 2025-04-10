@@ -59,9 +59,7 @@ def phantom_fold(vertex, vertex_map, constraints):
 
 		out += [phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy)]
 
-	if not out:
-		print("HERE WITH NOTHING")
-
+	return out
 
 def main():
 	a = Vertex("a")
