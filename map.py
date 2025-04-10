@@ -53,11 +53,11 @@ def phantom_fold(vertex, vertex_map, constraints):
 		incomplete_verticies = list(filter(lambda n: constraints_copy.get(n.name) == None or None in constraints_copy.get(n.name), vertex_map))
 
 		if len(incomplete_verticies) == 0:
-			print("We are done")
-			print(constraints_copy)
-			return
+			# Theres no more options in this path
+			out += [constraints_copy]
+			continue
 
-		out += [phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy)]
+		out += [*phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy)]
 
 	return out
 
@@ -82,7 +82,7 @@ def main():
 	d.set_edges([Angle(90, bd), Angle(90, cd), Angle(90), Angle(90)])
 
 
-	phantom_fold(a, [a, b, c, d], {})
+	pprint(phantom_fold(a, [a, b, c, d], {}))
 
 
 if __name__ == '__main__':
