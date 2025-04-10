@@ -112,6 +112,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	# The index of the crease before the repeating pattern
 	start = lowest_index
 	number_checked = 0
+	reduced = False
 	while start in same:
 		start -= 1
 		if start < 0:
@@ -122,6 +123,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 			parter_index = None
 			# We reduce same_amount by 1, because later there should only be 4 choices to pick from, not 5
 			same_amount -= 1
+			reduced = True
 			break
 	else:
 		parter_index = original_indecies[start]
@@ -141,10 +143,17 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		return out
 
 	if same_amount % 2 == 1:
-		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
+		if reduced:
+			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 3) / 2)))
+		else:
+			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
+		print(combinations)
 
 	if same_amount % 2 == 0:
-		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
+		if reduced:
+			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 2)))
+		else:
+			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
