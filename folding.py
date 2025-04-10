@@ -131,9 +131,12 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	start = lowest_index
 	number_checked = 0
 	while start in same:
-		start += 1
-		if start >= len(creases):
-			start = 0
+		start -= 1
+		if start == 0:
+			start = len(creases) - 1
+		#start += 1
+		#if start >= len(creases):
+		#	start = 0
 
 		if number_checked >= len(original_indecies):
 			parter_index = None
