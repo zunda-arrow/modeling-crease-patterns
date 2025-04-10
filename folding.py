@@ -108,6 +108,7 @@ def verify_kawasaki(creases):
 # Basic find fold number algoritm
 # Original indecies keeps track of where a crease was "from"
 def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
+	print(creases, original_indecies)
 	# Clone the lists to make code easier to follow
 	creases = [*creases]
 	original_indecies = [*original_indecies]
@@ -132,11 +133,8 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	number_checked = 0
 	while start in same:
 		start -= 1
-		if start == 0:
+		if start < 0:
 			start = len(creases) - 1
-		#start += 1
-		#if start >= len(creases):
-		#	start = 0
 
 		if number_checked >= len(original_indecies):
 			parter_index = None
@@ -156,23 +154,23 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		out = []
 		for x in comb:
 			# index 0 is the crease before the repeated creases
-			out.append(list(map(lambda y: [*creases_that_will_be_folded, creases_that_will_be_folded[0]][y], x)))
+			out.append(list(map(lambda y: creases_that_will_be_folded[y], x)))
 		return out
 
 	if same_amount % 2 == 1:
-		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
+		combinations = map_comb(itertools.combinations(range(same_amount), math.floor((same_amount + 1) / 2)))
 
 	if same_amount % 2 == 0:
-		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
+		combinations = map_comb(itertools.combinations(range(same_amount), math.floor((same_amount / 2) + 1)))
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
 		(left, _) = find_adjacent(same[0], creases)
 		(_, right) = find_adjacent(same[-1], creases)
-		creases[left] = creases[left] + creases[right] - crease_size
-		creases[right] = None
+		creases[right] = creases[left] + creases[right] - crease_size
+		creases[left] = None
 
-		original_indecies[right] = None
+		original_indecies[left] = None
 
 	if same_amount % 2 == 0:
 		# We lose an even number of creases, do nothing

@@ -44,10 +44,11 @@ if __name__ == '__main__':
 	vertex = Vertex(
 		edges=[Angle(25), Angle(75), Angle(155), Angle(105)]
 	)
-	#vertex = Vertex(
-	#	edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
-	#)
+	vertex = Vertex(
+		edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
+	)
 
 	options = build_fold_tree(vertex)
 	pprint(options)
+	print(options.one_option())
 
