@@ -147,7 +147,6 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 3) / 2)))
 		else:
 			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
-		print(combinations)
 
 	if same_amount % 2 == 0:
 		if reduced:
