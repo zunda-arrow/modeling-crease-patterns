@@ -16,17 +16,26 @@ def _verify_kawasaki(creases):
 	assert a == b, "Kawasaki's Theorem is not satisfied"
 
 @dataclass
+class Edge:
+	first: Vertex
+	second: Vertex
+
+	def verticies(self):
+		return [self.first, self.second]
+
+@dataclass
 class Angle:
 	# Distance from the last angle, given in terms of 360
 	degree: int
-	# The vertex this edge touches or None if this is the end of the paper
-	vertex: Vertex | None = None
+	# The edge this vertex is one, or none if it touches the edge of the paper
+	edge: Edge | None = None
 
 	# This program only looks for one solution set.
 	fold_type: 'M' | 'V' | 'unknown' = 'unknown'
 
 @dataclass
 class Vertex:
+	name: str
 	edges: list[Angle] = None
 	folds: any = None
 
