@@ -35,8 +35,8 @@ class FoldTree:
 		total_options = []
 
 		if self.next:
+			option_set = self.next.all_options()
 			for option in self.next_crease:
-				option_set = self.next.all_options()
 				for choice in option_set:
 					total_options.append([*option, *choice])
 
@@ -195,22 +195,27 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		mountains = combination
 		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
-		creases = []
+		creases_set_one = []
+		creases_set_two = []
 
 		for crease in creases_that_will_be_folded:
 			if crease in mountains:
-				creases += ['M']
+				creases_set_one += ['M']
+				creases_set_two += ['V']
 			elif crease in valleys:
-				creases += ['V']
+				creases_set_one += ['V']
+				creases_set_two += ['M']
 			else:
 				raise Exception("Crease not in mountain or valleys")
 
-		out_options += [creases]
+		out_options += [creases_set_one, creases_set_two]
 
 	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 
 # Build the fold tree for only one set set of mountains and valleys
 def find_all_folds(vertex: Vertex):
 	angles = vertex.get_angles()
-	return build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles)).all_options()
+	tree = build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles))
+	pprint(tree)
+	return tree.all_options()
 
