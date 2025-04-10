@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import math
 import itertools
-from pprint import pprint
 import typing as t
 from dataclasses import dataclass
 import itertools
@@ -18,18 +17,6 @@ class FoldTree:
 	crease_indecies: list[int]
 	next_crease: list[tuple['M' | 'V']]
 	next: FoldTree
-
-	def one_option(self, options = None):
-		if options == None:
-			options = [None] * self.edge_count
-
-		for crease, type in zip(self.crease_indecies, self.next_crease[0]):
-			options[crease] = type
-
-		if self.next:
-			self.next.one_option(options)
-
-		return options
 
 	def all_options(self):
 		total_options = []
@@ -130,10 +117,12 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		if start < 0:
 			start = len(creases) - 1
 
+		number_checked += 1
 		if number_checked >= len(original_indecies):
 			parter_index = None
+			# We reduce same_amount by 1, because later there should only be 4 choices to pick from, not 5
+			same_amount -= 1
 			break
-		number_checked += 1
 	else:
 		parter_index = original_indecies[start]
 
@@ -153,11 +142,9 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	if same_amount % 2 == 1:
 		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
-		print(combinations)
 
 	if same_amount % 2 == 0:
 		combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount / 2) + 1)))
-		print(combinations)
 
 	if same_amount % 2 == 1:
 		# We lose an odd number of creases
@@ -193,7 +180,6 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	for combination in combinations:
 		# We say everything in the combination is a mountain, everything else is a valley
-		# To get the "flipped" version, we can simply flip the mountain and valley assignments
 		mountains = combination
 		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
@@ -215,6 +201,5 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 def find_all_folds(vertex: Vertex):
 	angles = vertex.get_angles()
 	tree = build_fold_tree_from_numbers(angles, list(range(len(angles))), len(angles))
-	pprint(tree)
 	return tree.all_options()
 

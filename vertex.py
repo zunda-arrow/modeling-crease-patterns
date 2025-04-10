@@ -22,19 +22,21 @@ class Angle:
 	# The vertex this edge touches or None if this is the end of the paper
 	vertex: Vertex | None = None
 
-	# This program only looks for one solution set. We can flip the page to find the other solution set, so I am ignoring that
-	# to make this easier to program.
-	fold_type: 'mountain' | 'valley' | 'unknown' = 'unknown'
+	# This program only looks for one solution set.
+	fold_type: 'M' | 'V' | 'unknown' = 'unknown'
 
 @dataclass
 class Vertex:
 	edges: list[Angle]
+	folds: any = None
 
 	def __post_init__(self):
 		angle = sum(self.get_angles())
 		_verify_kawasaki(self.get_angles())
 		if (angle != 360):
 			raise Exception(f"Angle sum does not equal 360. Found sum={angle}.")
+
+		self.folds = find_all_folds(self)
 
 
 	def get_angles(self):
@@ -51,14 +53,14 @@ if __name__ == '__main__':
 	)
 
 	# Should have 12 ways
-	vertex = Vertex(
-		edges=list(map(lambda x: Angle(x), [30, 30, 70, 40, 80, 110]))
-	)
+	#vertex = Vertex(
+	#	edges=list(map(lambda x: Angle(x), [30, 30, 70, 40, 80, 110]))
+	#)
 
 	# Should have 24 ways
-	vertex = Vertex(
-		edges=list(map(lambda x: Angle(x), [20, 20, 40, 60, 60, 40, 60, 60]))
-	)
+	#vertex = Vertex(
+	#	edges=list(map(lambda x: Angle(x), [20, 20, 40, 60, 60, 40, 60, 60]))
+	#)
 
 	#vertex = Vertex(
 	#	edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
