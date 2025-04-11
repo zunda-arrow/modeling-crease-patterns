@@ -93,6 +93,8 @@ def main():
 	bc = Edge(b, c)
 
 	a.set_edges([Angle(60, ab), Angle(60, ac), Angle(120), Angle(120)])
+	print(a.folds)
+	return
 	b.set_edges([Angle(60, ab), Angle(60, bc), Angle(120), Angle(120)])
 	c.set_edges([Angle(60, ac), Angle(60, bc), Angle(120), Angle(120)])
 
