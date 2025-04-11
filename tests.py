@@ -1,15 +1,13 @@
 from vertex import Vertex, Angle
 
 def vertex_tests():
+	# Bird's foot
 	vertex = Vertex(
 		"test",
-		edges=[Angle(25), Angle(75), Angle(155), Angle(105)]
+		edges=[Angle(60), Angle(60), Angle(120), Angle(120)]
 	)
-
-	vertex = Vertex(
-		"test",
-		edges=[Angle(112.5), Angle(45), Angle(112.5), Angle(90)]
-	)
+	print(vertex.folds)
+	return
 
 	# Should have 8 ways
 	vertex = Vertex(
@@ -27,6 +25,7 @@ def vertex_tests():
 		"test",
 		edges=list(map(lambda x: Angle(x), [20, 20, 40, 60, 60, 40, 60, 60]))
 	)
+	print(len(vertex.folds))
 
 	vertex = Vertex(
 		"test",

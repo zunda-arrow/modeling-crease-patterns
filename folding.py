@@ -23,13 +23,23 @@ class FoldTree:
 
 		if self.next:
 			option_set = self.next.all_options()
+
 			for option in self.next_crease:
 				for choice in option_set:
-					total_options.append([*option, *choice])
+					choice = [*choice]
+					for crease, index in zip(option, self.crease_indecies):
+						choice[index] = crease
+					total_options.append(choice)
 
 			return total_options
 		else:
-			return self.next_crease
+			for option in self.next_crease:
+				o = [None] * self.edge_count
+				for crease, index in zip(option, self.crease_indecies):
+					o[index] = crease
+
+				total_options.append(o)
+			return total_options
 
 def find_adjacent(index, array):
 	if len(array) < 2:
