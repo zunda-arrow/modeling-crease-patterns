@@ -6,13 +6,13 @@ def vertex_tests():
 		"test",
 		edges=[Angle(60), Angle(60), Angle(120), Angle(120)]
 	)
+	print(vertex.folds)
 
 	# Should have 8 ways
 	vertex = Vertex(
 		"test",
 		edges=list(map(lambda x: Angle(x), [20, 70, 105, 30, 55, 80]))
 	)
-	print(vertex.folds)
 
 	vertex = Vertex(
 		"test",
