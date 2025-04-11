@@ -61,42 +61,42 @@ def phantom_fold(vertex, vertex_map, constraints):
 
 	return out
 
-#def main():
-#	a = Vertex("a")
-#	b = Vertex("b")
-#	c = Vertex("c")
-#	d = Vertex("d")
-#
-#	ab = Edge(a, b)
-#	ac = Edge(a, c)
-#
-#	bc = Edge(b, c)
-#	bd = Edge(b, d)
-#
-#	cd = Edge(c, d)
-#	da = Edge(d, a)
-#
-#	a.set_edges([Angle(90, ab), Angle(90, ac), Angle(90), Angle(90)])
-#	b.set_edges([Angle(90, ab), Angle(90, bd), Angle(90), Angle(90)])
-#	c.set_edges([Angle(90, ac), Angle(90, cd), Angle(90), Angle(90)])
-#	d.set_edges([Angle(90, bd), Angle(90, cd), Angle(90), Angle(90)])
-#
-#	pprint(phantom_fold(a, [a, b, c, d], {}))
-
 def main():
 	a = Vertex("a")
 	b = Vertex("b")
 	c = Vertex("c")
+	d = Vertex("d")
 
 	ab = Edge(a, b)
 	ac = Edge(a, c)
+
 	bc = Edge(b, c)
+	bd = Edge(b, d)
 
-	a.set_edges([Angle(60, ab), Angle(75, ac), Angle(120), Angle(105)])
-	b.set_edges([Angle(60, ab), Angle(75, bc), Angle(120), Angle(105)])
-	c.set_edges([Angle(60, ac), Angle(75, bc), Angle(120), Angle(105)])
+	cd = Edge(c, d)
+	da = Edge(d, a)
 
-	pprint(phantom_fold(a, [a, b, c], {}))
+	a.set_edges([Angle(40, ab), Angle(40, ac), Angle(140, da), Angle(140)])
+	b.set_edges([Angle(100, ab), Angle(100, bc), Angle(80), Angle(80)])
+	c.set_edges([Angle(40, bc), Angle(40, ac), Angle(140, cd), Angle(140)])
+	d.set_edges([Angle(100, bd), Angle(100, cd), Angle(80), Angle(80)])
+
+	pprint(phantom_fold(a, [a, b, c, d], {}))
+
+#def main():
+#	a = Vertex("a")
+#	b = Vertex("b")
+#	c = Vertex("c")
+#
+#	ab = Edge(a, b)
+#	ac = Edge(a, c)
+#	bc = Edge(b, c)
+#
+#	a.set_edges([Angle(60, ab), Angle(75, ac), Angle(120), Angle(105)])
+#	b.set_edges([Angle(60, ab), Angle(75, bc), Angle(120), Angle(105)])
+#	c.set_edges([Angle(60, ac), Angle(75, bc), Angle(120), Angle(105)])
+#
+#	pprint(phantom_fold(a, [a, b, c], {}))
 
 
 if __name__ == '__main__':
