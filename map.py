@@ -92,9 +92,9 @@ def main():
 	ac = Edge(a, c)
 	bc = Edge(b, c)
 
-	a.set_edges([Angle(135, ab), Angle(45, ac), Angle(45), Angle(135)])
-	b.set_edges([Angle(45, ab), Angle(135, bc), Angle(135), Angle(45)])
-	c.set_edges([Angle(45, ac), Angle(135, bc), Angle(135), Angle(45)])
+	a.set_edges([Angle(60, ab), Angle(60, ac), Angle(120), Angle(120)])
+	b.set_edges([Angle(60, ab), Angle(60, bc), Angle(120), Angle(120)])
+	c.set_edges([Angle(60, ac), Angle(60, bc), Angle(120), Angle(120)])
 
 	pprint(phantom_fold(a, [a, b, c], {}))
 
