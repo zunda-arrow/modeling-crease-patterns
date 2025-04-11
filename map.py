@@ -94,9 +94,8 @@ def main():
 	bc = Edge(b, c)
 
 	a.set_edges([Angle(60, ab), Angle(90, ac), Angle(120), Angle(90)])
-	print(a.folds)
 	b.set_edges([Angle(60, ab), Angle(90, bc), Angle(120), Angle(90)])
-	c.set_edges([Angle(60, ac), Angle(90, bc), Angle(120), Angle(90)])
+	c.set_edges([Angle(90), Angle(60, ac), Angle(90, bc), Angle(120)])
 
 	pprint(phantom_fold(a, [a, b, c], {}))
 
