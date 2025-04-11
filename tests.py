@@ -6,6 +6,13 @@ def vertex_tests():
 		"test",
 		edges=[Angle(60), Angle(60), Angle(120), Angle(120)]
 	)
+
+	# rotated bird's foot
+	print(vertex.folds)
+	vertex = Vertex(
+		"test",
+		edges=[Angle(120), Angle(60), Angle(60), Angle(120)]
+	)
 	print(vertex.folds)
 
 	# Should have 8 ways
