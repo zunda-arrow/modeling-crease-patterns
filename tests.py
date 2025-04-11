@@ -1,6 +1,12 @@
 from vertex import Vertex, Angle
 
 def vertex_tests():
+	vertex = Vertex(
+		edges=[Angle(60), Angle(90), Angle(120), Angle(90)]
+	)
+	print(vertex.folds)
+	return
+
 	# Bird's foot
 	vertex = Vertex(
 		"test",
@@ -8,12 +14,10 @@ def vertex_tests():
 	)
 
 	# rotated bird's foot
-	print(vertex.folds)
 	vertex = Vertex(
 		"test",
 		edges=[Angle(120), Angle(60), Angle(60), Angle(120)]
 	)
-	print(vertex.folds)
 
 	# Should have 8 ways
 	vertex = Vertex(

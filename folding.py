@@ -121,7 +121,6 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	if len(creases) == 4 and same_amount == 2:
 		# we have a birds foot, I know this is the minimum requirements due to kawasaki's theorem
-
 		birds_foot_start = (4 - lowest_index) % 4
 		two = (4 - lowest_index + 1) % 4
 		three = (4 - lowest_index + 2) % 4
@@ -194,7 +193,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		(_, right) = find_adjacent(same[-1], creases)
 
 		# Investigate why this order matters
-		if creases[left] < creases[right]:
+		if creases[left] <= creases[right]:
 			creases[left] = creases[left] + creases[right] - crease_size
 			creases[right] = None
 			original_indecies[right] = None
