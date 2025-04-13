@@ -3,62 +3,56 @@ import copy
 from pprint import pprint
 import itertools
 
-def phantom_fold(vertex, vertex_map, constraints):
+def phantom_fold(vertex, vertex_map, constraints={}, checked=[]):
 	# First check if we are constrianed
-	constraint = constraints.get(vertex.name, [None, None, None, None])
-
 	out = []
+
+	print("looking at", vertex.name)
+
+	checked = copy.deepcopy(checked)
+	checked.append(vertex.name)
 
 	for fold in vertex.folds:
 		# First verifify we follow constraint
-		found_mismatch = False
-		for f, c in zip(fold, constraint):
-			if c == None:
-				continue
-			if f != c:
-				found_mismatch = True
-				break
-
-		if found_mismatch:
-			continue
-
 		constraints_copy = copy.deepcopy(constraints)
 
 		case_failed = False
-		for i, (edge, crease) in enumerate(zip(vertex.edges, fold)):
-			if vertex.name not in constraints_copy:
-				constraints_copy[vertex.name] = [None, None, None, None]
 
-			constraints_copy[vertex.name][i] = crease
-
+		for edge, crease in zip(vertex.edges, fold):
 			if edge.edge == None:
 				continue
 
-			verticies = edge.edge.verticies()
+			# If we already constrained this edge to a different crease, we give up
+			if edge.edge.name in constraints_copy:
+				if constraints_copy[edge.edge.name] != crease:
+					case_failed = True
+					break
 
-			for vert in verticies:
-				if vert.name not in constraints_copy:
-					constraints_copy[vert.name] = [None, None, None, None]
-
-				# This vertex is already constrained, if its different we have a failed case
-				if constraints_copy[vert.name][i]:
-					if constraints_copy[vert.name][i] != crease:
-						case_failed = True
-
-				constraints_copy[vert.name][i] = crease
+			if edge.edge.name not in constraints_copy:
+				constraints_copy[edge.edge.name] = crease
 
 		if case_failed:
 			continue
 
 		# Then pick another guy to phantom fold
-		incomplete_verticies = list(filter(lambda n: constraints_copy.get(n.name) == None or None in constraints_copy.get(n.name), vertex_map))
+		def is_not_complete(vertex):
+			if vertex.name not in checked:
+				return True
+			for edge in vertex.edges:
+				if not edge.edge:
+					continue
+				if edge.edge.name not in constraints_copy:
+					return True
+			return False
+
+		incomplete_verticies = list(filter(is_not_complete, vertex_map))
 
 		if len(incomplete_verticies) == 0:
 			# Theres no more options in this path
 			out += [constraints_copy]
 			continue
 
-		out += [*phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy)]
+		out += [*phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy, checked)]
 
 	return out
 
@@ -68,14 +62,14 @@ def phantom_fold(vertex, vertex_map, constraints):
 #	c = Vertex("c")
 #	d = Vertex("d")
 #
-#	ab = Edge(a, b)
-#	ac = Edge(a, c)
+#	ab = Edge("ab", a, b)
+#	ac = Edge("ac", a, c)
 #
-#	bc = Edge(b, c)
-#	bd = Edge(b, d)
+#	bc = Edge("bc", b, c)
+#	bd = Edge("bd", b, d)
 #
-#	cd = Edge(c, d)
-#	da = Edge(d, a)
+#	cd = Edge("cd", c, d)
+#	da = Edge("da", d, a)
 #
 #	a.set_edges([Angle(40, ab), Angle(40, ac), Angle(140, da), Angle(140)])
 #	b.set_edges([Angle(100, ab), Angle(60, bc), Angle(80), Angle(120)])
@@ -89,15 +83,19 @@ def main():
 	b = Vertex("b")
 	c = Vertex("c")
 
-	ab = Edge(a, b)
-	ac = Edge(a, c)
-	bc = Edge(b, c)
+	ab = Edge("ab", a, b)
+	ac = Edge("ac", a, c)
+	bc = Edge("bc", b, c)
 
-	a.set_edges([Angle(60, ab), Angle(90, ac), Angle(120), Angle(90)])
-	b.set_edges([Angle(60, ab), Angle(90, bc), Angle(120), Angle(90)])
-	c.set_edges([Angle(90), Angle(60, ac), Angle(90, bc), Angle(120)])
+	a.set_edges([Angle(60, ab), Angle(90), Angle(120), Angle(90, ac)])
+	b.set_edges([Angle(60, bc), Angle(90), Angle(120), Angle(90, ab)])
+	c.set_edges([Angle(60, ac), Angle(90), Angle(120), Angle(90, bc)])
 
-	pprint(phantom_fold(a, [a, b, c], {}))
+	print(a.folds)
+	print(b.folds)
+	print(c.folds)
+
+	# pprint(phantom_fold(a, [a, b, c]))
 
 if __name__ == '__main__':
 	main()

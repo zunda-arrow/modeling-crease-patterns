@@ -17,6 +17,7 @@ def _verify_kawasaki(creases):
 
 @dataclass
 class Edge:
+	name: str
 	first: Vertex
 	second: Vertex
 

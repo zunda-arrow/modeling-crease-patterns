@@ -120,7 +120,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	mapped_same = list(map(lambda x: original_indecies[x], same))
 
 	if len(creases) == 4 and same_amount == 2:
-		# we have a birds foot, I know this is the minimum requirements due to kawasaki's theorem
+			# we have a birds foot, I know this is the minimum requirements due to kawasaki's theorem
 		birds_foot_start = (4 - lowest_index) % 4
 		two = (4 - lowest_index + 1) % 4
 		three = (4 - lowest_index + 2) % 4
