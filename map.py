@@ -7,8 +7,6 @@ def phantom_fold(vertex, vertex_map, constraints={}, checked=[]):
 	# First check if we are constrianed
 	out = []
 
-	print("looking at", vertex.name)
-
 	checked = copy.deepcopy(checked)
 	checked.append(vertex.name)
 
@@ -91,11 +89,7 @@ def main():
 	b.set_edges([Angle(60, bc), Angle(90), Angle(120), Angle(90, ab)])
 	c.set_edges([Angle(60, ac), Angle(90), Angle(120), Angle(90, bc)])
 
-	print(a.folds)
-	print(b.folds)
-	print(c.folds)
-
-	# pprint(phantom_fold(a, [a, b, c]))
+	pprint(phantom_fold(a, [a, b, c]))
 
 if __name__ == '__main__':
 	main()
