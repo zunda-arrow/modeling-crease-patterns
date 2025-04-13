@@ -6,6 +6,19 @@ import itertools
 def phantom_fold(vertex_map):
 	return phantom_fold_inner(vertex_map[0], vertex_map)
 
+def find_duplicate_constraint(constraints, this):
+	for c in constraints:
+		all_equal = True
+		for key in c:
+			if c[key] != this.get(key):
+				all_equal = False
+		if all_equal:
+			return True
+
+	return False
+
+
+
 def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 	# First check if we are constrianed
 	out = []
@@ -50,10 +63,17 @@ def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 
 		if len(incomplete_verticies) == 0:
 			# Theres no more options in this path
+			if find_duplicate_constraint(out, constraints_copy):
+				continue
+
 			out += [constraints_copy]
 			continue
 
-		out += [*phantom_fold_inner(incomplete_verticies[0], vertex_map, constraints_copy, checked)]
+		for c in phantom_fold_inner(incomplete_verticies[0], vertex_map, constraints_copy, checked):
+			if find_duplicate_constraint(out, c):
+				continue
+			out += [c]
+
 
 	return out
 
