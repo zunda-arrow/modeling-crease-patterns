@@ -3,7 +3,10 @@ import copy
 from pprint import pprint
 import itertools
 
-def phantom_fold(vertex, vertex_map, constraints={}, checked=[]):
+def phantom_fold(vertex_map):
+	return phantom_fold_inner(vertex_map[0], vertex_map)
+
+def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 	# First check if we are constrianed
 	out = []
 
@@ -50,7 +53,7 @@ def phantom_fold(vertex, vertex_map, constraints={}, checked=[]):
 			out += [constraints_copy]
 			continue
 
-		out += [*phantom_fold(incomplete_verticies[0], vertex_map, constraints_copy, checked)]
+		out += [*phantom_fold_inner(incomplete_verticies[0], vertex_map, constraints_copy, checked)]
 
 	return out
 
@@ -74,7 +77,7 @@ def phantom_fold(vertex, vertex_map, constraints={}, checked=[]):
 #	c.set_edges([Angle(40, bc), Angle(40, ac), Angle(140, cd), Angle(140)])
 #	d.set_edges([Angle(100, bd), Angle(100, cd), Angle(80), Angle(80)])
 #
-#	pprint(phantom_fold(a, [a, b, c, d], {}))
+#	pprint(phantom_fold_inner(a, [a, b, c, d], {}))
 
 def main():
 	a = Vertex("a")
@@ -89,7 +92,7 @@ def main():
 	b.set_edges([Angle(60, bc), Angle(90), Angle(120), Angle(90, ab)])
 	c.set_edges([Angle(60, ac), Angle(90), Angle(120), Angle(90, bc)])
 
-	pprint(phantom_fold(a, [a, b, c]))
+	pprint(phantom_fold_inner(a, [a, b, c]))
 
 if __name__ == '__main__':
 	main()

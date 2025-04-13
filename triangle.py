@@ -13,5 +13,5 @@ a.set_edges([Angle(60, ab), Angle(90), Angle(120), Angle(90, ac)])
 b.set_edges([Angle(60, bc), Angle(90), Angle(120), Angle(90, ab)])
 c.set_edges([Angle(60, ac), Angle(90), Angle(120), Angle(90, bc)])
 
-pprint(phantom_fold(a, [a, b, c]))
+pprint(phantom_fold([a, b, c]))
 
