@@ -1,4 +1,4 @@
-from vertex import Vertex, Angle, Edge
+from crease_finder.vertex import Vertex, Angle, Edge
 import copy
 from pprint import pprint
 import itertools

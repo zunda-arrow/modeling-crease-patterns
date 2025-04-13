@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from folding import find_all_folds
+from crease_finder.folding import find_all_folds
 from pprint import pprint
 import itertools
 
