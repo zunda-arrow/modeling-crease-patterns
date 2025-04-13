@@ -192,7 +192,6 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		(left, _) = find_adjacent(same[0], creases)
 		(_, right) = find_adjacent(same[-1], creases)
 
-		# Investigate why this order matters
 		if creases[left] <= creases[right]:
 			creases[left] = creases[left] + creases[right] - crease_size
 			creases[right] = None
