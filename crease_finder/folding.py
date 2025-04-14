@@ -150,16 +150,19 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	parter_index_a = original_indecies[(start - 1) % len(original_indecies)]
 	parter_index_b = original_indecies[(start + same_amount + 1) % len(original_indecies)]
 
-	print(parter_index_a, parter_index_b)
 	if abs(parter_index_a) == abs(parter_index_b - same_amount):
 		reduced = True
 
 	creases_that_will_be_folded = []
 	if parter_index_a != None and parter_index_b != None:
 		if parter_index_a > parter_index_b:
-			creases_that_will_be_folded = [parter_index_a, *mapped_same]
+			if parter_index_a not in mapped_same:
+				creases_that_will_be_folded = [parter_index_a, *mapped_same]
+			else:
+				creases_that_will_be_folded = [*mapped_same]
 		else:
-			creases_that_will_be_folded = [*mapped_same, parter_index_b]
+			if parter_index_b not in mapped_same:
+				creases_that_will_be_folded = [*mapped_same]
 	else:
 		creases_that_will_be_folded = mapped_same
 
@@ -173,7 +176,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	if same_amount % 2 == 1:
 		if reduced:
-			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 3) / 2)))
+			combinations = map_comb(itertools.combinations(range(same_amount), math.floor((same_amount + 3) / 2)))
 		else:
 			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
 	if same_amount % 2 == 0:
@@ -227,6 +230,9 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 				raise Exception("Crease not in mountain or valleys")
 
 		out_options += [creases]
+
+		if len(creases_that_will_be_folded) == len(original_indecies):
+			out_options += [creases_two]
 
 	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 

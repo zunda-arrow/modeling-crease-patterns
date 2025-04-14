@@ -7,17 +7,10 @@ b = Vertex('b')
 ab = Edge('ab', a, b)
 
 a.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
-# b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
+b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
 
-pprint(a.folds)
-
-
-exit()
 
 folds = phantom_fold([a, b])
-
-pprint(folds)
-pprint(len(folds))
 
 assert len(folds) == 32
 
