@@ -16,6 +16,10 @@ b.set_edges([Angle(90, ab), Angle(90, bd), Angle(90), Angle(90)])
 c.set_edges([Angle(90, cd), Angle(90, ac), Angle(90), Angle(90)])
 d.set_edges([Angle(90, bd), Angle(90, cd), Angle(90), Angle(90)])
 
-pprint(phantom_fold([a, b, c, d]))
+folds = phantom_fold([a, b, c, d])
+
+assert len(folds) == 15
+
+print("Yep, thats 15 ways")
 
 
