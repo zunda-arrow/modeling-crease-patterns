@@ -1,3 +1,4 @@
+
 from crease_finder.vertex import Vertex, Angle
 
 def verify(vertex, numbers: int | None = None):
