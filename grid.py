@@ -7,19 +7,22 @@ b = Vertex('b')
 ab = Edge('ab', a, b)
 
 a.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
-b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
+# b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
+
+pprint(a.folds)
+
+
+exit()
 
 folds = phantom_fold([a, b])
 
 pprint(folds)
-
-vertex = Vertex(
-	"test 4",
-	edges=list(map(lambda x: Angle(x), [20, 70, 105, 30, 55, 80]))
-)
+pprint(len(folds))
 
 assert len(folds) == 32
 
+# 2 * 3^(3 + 1)
+# We can either pick (3 choose 2) OR pick all the same. Which gives 2 options.
+# Then we double the final result because there is two sets of mountains and valleys.
 print("Yep, that's 32 ways")
-
 

@@ -15,3 +15,5 @@ c.set_edges([Angle(60, ac), Angle(90), Angle(120), Angle(90, bc)])
 
 pprint(phantom_fold([a, b, c]))
 
+print("There are no ways to fold this flat")
+

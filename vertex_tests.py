@@ -2,11 +2,11 @@
 from crease_finder.vertex import Vertex, Angle
 
 def verify(vertex, numbers: int | None = None):
+	print(vertex.name)
 	options = vertex.folds
 	if numbers is not None:
 		assert len(options) == numbers
 	for option in options:
-		print(vertex.name, option)
 		assert None not in option
 
 def vertex_tests():
@@ -37,6 +37,7 @@ def vertex_tests():
 	)
 	verify(vertex, 8)
 
+	# This is broken for an unknown reason
 	vertex = Vertex(
 		"test 5",
 		edges=list(map(lambda x: Angle(x), [30, 30, 70, 40, 80, 110]))
@@ -54,12 +55,20 @@ def vertex_tests():
 		"test 7",
 		edges=list(map(lambda x: Angle(x), [40, 10, 20, 60, 60, 60, 60, 50]))
 	)
-	print(len(vertex.folds))
+	verify(vertex)
 
 	vertex = Vertex(
 		"test 8",
 		edges=list(map(lambda x: Angle(x), [60, 60, 60, 50, 40, 10, 20, 60]))
 	)
+	verify(vertex)
+
+	vertex = Vertex(
+		"test 9",
+		edges=list(map(lambda x: Angle(x), [20, 10, 40, 50, 60, 60, 60, 60]))
+	)
+	verify(vertex)
+	print(vertex.folds)
 	print(len(vertex.folds))
 
 if __name__ == '__main__':
