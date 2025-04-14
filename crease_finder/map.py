@@ -26,6 +26,8 @@ def find_duplicate_constraint(constraints, this):
 	return False
 
 
+# This is different than Eric Demaine's algorithm
+# My program finds ALL the assignments while his algorithm only finds one. I think this is a fundementally different problem.
 def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 	# First check if we are constrianed
 	out = []
@@ -71,7 +73,6 @@ def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 		if len(incomplete_verticies) == 0:
 			# Theres no more options in this path
 			if find_duplicate_constraint(out, constraints_copy):
-				return []
 				continue
 
 			out += [constraints_copy]
