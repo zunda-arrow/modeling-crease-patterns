@@ -71,6 +71,7 @@ def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 		if len(incomplete_verticies) == 0:
 			# Theres no more options in this path
 			if find_duplicate_constraint(out, constraints_copy):
+				return []
 				continue
 
 			out += [constraints_copy]
