@@ -4,7 +4,14 @@ from pprint import pprint
 import itertools
 
 def phantom_fold(vertex_map):
-	return phantom_fold_inner(vertex_map[0], vertex_map)
+	folds = phantom_fold_inner(vertex_map[0], vertex_map)
+
+	all_possibilities = []
+
+	for f in folds:
+		all_possibilities.extend(phantom_folds_to_all_folds(f, vertex_map))
+
+	return all_possibilities
 
 
 def find_duplicate_constraint(constraints, this):
@@ -76,4 +83,34 @@ def phantom_fold_inner(vertex, vertex_map, constraints={}, checked=[]):
 
 
 	return out
+
+def phantom_folds_to_all_folds(constraint, verticies):
+	if len(verticies) == 0:
+		return []
+
+	vertex = verticies[0]
+
+	working_folds = []
+	for fold in vertex.folds:
+		this_fold = {}
+
+		pattern_failed = False
+		for edge, crease in zip(vertex.edges, fold):
+			if edge.edge != None:
+				if constraint[edge.edge.name] != crease:
+					pattern_failed = True
+					break
+		if not pattern_failed:
+			this_fold[vertex.name] = fold
+
+			next_folds = phantom_folds_to_all_folds(constraint, verticies[1:])
+
+			if len(next_folds) != 0:
+				for option in next_folds:
+					working_folds.append({**this_fold, **option})
+			else:
+				working_folds.append(this_fold)
+
+
+	return working_folds
 

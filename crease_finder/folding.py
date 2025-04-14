@@ -120,7 +120,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 	mapped_same = list(map(lambda x: original_indecies[x], same))
 
 	if len(creases) == 4 and same_amount == 2:
-			# we have a birds foot, I know this is the minimum requirements due to kawasaki's theorem
+		# we have a birds foot, I know this is the minimum requirements due to kawasaki's theorem
 		birds_foot_start = (4 - lowest_index) % 4
 		two = (4 - lowest_index + 1) % 4
 		three = (4 - lowest_index + 2) % 4
@@ -177,7 +177,7 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 
 	if same_amount % 2 == 1:
 		if reduced:
-			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 3) / 2)))
+			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount) / 2) + 2))
 		else:
 			combinations = map_comb(itertools.combinations(range(same_amount + 1), math.floor((same_amount + 1) / 2)))
 
@@ -224,16 +224,19 @@ def build_fold_tree_from_numbers(creases, original_indecies, edge_count):
 		valleys = list(filter(lambda x: x not in combination, creases_that_will_be_folded))
 
 		creases = []
+		creases_two = []
 
 		for crease in creases_that_will_be_folded:
 			if crease in mountains:
 				creases += ['M']
+				creases_two += ['V']
 			elif crease in valleys:
-				creases += ['V']
+				creases+= ['V']
+				creases_two += ['M']
 			else:
 				raise Exception("Crease not in mountain or valleys")
 
-		out_options += [creases]
+		out_options += [creases, creases_two]
 
 	return FoldTree(edge_count, creases_that_will_be_folded, out_options, next)
 

@@ -1,4 +1,4 @@
-from vertex import Vertex, Angle
+from crease_finder.vertex import Vertex, Angle
 
 def verify(vertex, numbers: int | None = None):
 	options = vertex.folds
