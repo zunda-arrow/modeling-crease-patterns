@@ -9,7 +9,6 @@ ab = Edge('ab', a, b)
 a.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
 b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
 
-
 folds = phantom_fold([a, b])
 
 assert len(folds) == 32
