@@ -4,7 +4,7 @@ from pprint import pprint
 a = Vertex('a')
 b = Vertex('b')
 
-ab = Edge('ab', a, b)
+ab = Edge('ab')
 
 a.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])
 b.set_edges([Angle(90, ab), Angle(90), Angle(90), Angle(90)])

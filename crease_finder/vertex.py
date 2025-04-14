@@ -18,11 +18,6 @@ def _verify_kawasaki(creases):
 @dataclass
 class Edge:
 	name: str
-	first: Vertex
-	second: Vertex
-
-	def verticies(self):
-		return [self.first, self.second]
 
 @dataclass
 class Angle:

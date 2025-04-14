@@ -5,9 +5,9 @@ a = Vertex("a")
 b = Vertex("b")
 c = Vertex("c")
 
-ab = Edge("ab", a, b)
-ac = Edge("ac", a, c)
-bc = Edge("bc", b, c)
+ab = Edge("ab")
+ac = Edge("ac")
+bc = Edge("bc")
 
 a.set_edges([Angle(60, ab), Angle(90), Angle(120), Angle(90, ac)])
 b.set_edges([Angle(60, bc), Angle(90), Angle(120), Angle(90, ab)])
