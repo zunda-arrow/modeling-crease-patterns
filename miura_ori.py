@@ -68,10 +68,12 @@ def try_fold(m, n):
 	# We subtract one because we do not want to take the outside verticies into account
 	folds = phantom_fold(fold_ori(m - 1,n - 1))
 	print("Found", len(folds), "ways")
-	print("Actual:", KNOWN_MIURA_VALUES[triangle_number(m + 1) + n - 1])
+	print("Actual:", KNOWN_MIURA_VALUES[triangle_number(m + n - 1) - n])
 	
 
+try_fold(2, 2)
 try_fold(2, 3)
 try_fold(3, 3)
 try_fold(3, 4)
+try_fold(4, 3)
 
