@@ -68,8 +68,6 @@ def vertex_tests():
 		edges=list(map(lambda x: Angle(x), [20, 10, 40, 50, 60, 60, 60, 60]))
 	)
 	verify(vertex)
-	print(vertex.folds)
-	print(len(vertex.folds))
 
 if __name__ == '__main__':
 	vertex_tests()

@@ -76,4 +76,5 @@ try_fold(2, 3)
 try_fold(3, 3)
 try_fold(3, 4)
 try_fold(4, 3)
+try_fold(4, 5)
 
