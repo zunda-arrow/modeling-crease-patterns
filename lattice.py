@@ -1,21 +1,23 @@
 from crease_finder import Vertex, Edge, Angle, phantom_fold
 from pprint import pprint
+import sys
 
 # This file solves the stamp folding problem
 def fold_lattice(n, m):
 	# First we set the edges
+	max_n = max(n, m)
 
 	horizontal_edges = []
 	vertical_edges = []
 
-	for i in range(n):
+	for i in range(max_n):
 		vertical_edges.append([])
-		for j in range(m):
+		for j in range(max_n):
 			vertical_edges[-1].append(Edge(f"{i},{j} to {j},{i + 1}"))
 
-	for j in range(m + 1):
+	for j in range(max_n):
 		horizontal_edges.append([])
-		for i in range(n):
+		for i in range(max_n):
 			horizontal_edges[-1].append(Edge(f"{i},{j} to {j + 1},{i}"))
 
 	verticies = []
@@ -52,15 +54,14 @@ def fold_lattice(n, m):
 
 	return verticies
 
-def try_fold(m, n):
+def main():
+	m = int(sys.argv[1])
+	n = int(sys.argv[2])
+
 	# We subtract one because we do not want to take the outside verticies into account
 	folds = phantom_fold(fold_lattice(m - 1,n - 1))
 	print("Found", len(folds), "ways")
 	print("Actual:", 2 ** (m * n - 1))
 
-try_fold(2, 3)
-try_fold(3, 2)
-try_fold(3, 3)
-try_fold(4, 3)
-try_fold(4, 4)
-
+if __name__ == '__main__':
+	main()

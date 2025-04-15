@@ -1,6 +1,9 @@
+# Usage: python miura_ori.py <width> <height>
+# Known bug: Miura Ori of size 2,4 gives 108 combinations but it should be 54
 
 from crease_finder import Vertex, Edge, Angle, phantom_fold
 from pprint import pprint
+import sys
 
 # This file solves the stamp folding problem
 def fold_ori(n, m):
@@ -64,17 +67,22 @@ def triangle_number(n):
 		return 0
 	return n + triangle_number(n - 1)
 
-def try_fold(m, n):
+def main():
+	if len(sys.argv) < 3:
+		print("Usage: `python miura_ori.py <width> <height>`")
+
+	m = int(sys.argv[1])
+	n = int(sys.argv[2])
+
+	if m < 1:
+		print("Minimum width is 2")
+	if n < 1:
+		print("Minimum height is 2")
+
 	# We subtract one because we do not want to take the outside verticies into account
 	folds = phantom_fold(fold_ori(m - 1,n - 1))
 	print("Found", len(folds), "ways")
 	print("Actual:", KNOWN_MIURA_VALUES[triangle_number(m + n - 1) - n])
-	
 
-try_fold(2, 2)
-try_fold(2, 3)
-try_fold(3, 3)
-try_fold(3, 4)
-try_fold(4, 3)
-try_fold(4, 5)
-
+if __name__ == '__main__':
+	main()
