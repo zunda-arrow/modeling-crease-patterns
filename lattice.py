@@ -59,6 +59,7 @@ def fold_lattice(n, m):
 def main():
 	if len(sys.argv) < 3:
 		print("Usage: `python lattice.py <width> <height>`")
+		return
 
 	m = int(sys.argv[1])
 	n = int(sys.argv[2])

@@ -95,6 +95,7 @@ def triangle_number(n):
 def main():
 	if len(sys.argv) < 3:
 		print("Usage: `python miura_ori.py <width> <height>`")
+		return
 
 	m = int(sys.argv[1])
 	n = int(sys.argv[2])
