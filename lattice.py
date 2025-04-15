@@ -15,12 +15,12 @@ def fold_lattice(n, m):
 	for i in range(max_n):
 		vertical_edges.append([])
 		for j in range(max_n):
-			vertical_edges[-1].append(Edge(f"{i},{j} to {j},{i + 1}"))
+			vertical_edges[-1].append(Edge(f"{j},{i} to {j},{i + 1}"))
 
 	for j in range(max_n):
 		horizontal_edges.append([])
 		for i in range(max_n):
-			horizontal_edges[-1].append(Edge(f"{i},{j} to {j + 1},{i}"))
+			horizontal_edges[-1].append(Edge(f"{j},{i} to {j + 1},{i}"))
 
 	verticies = []
 
