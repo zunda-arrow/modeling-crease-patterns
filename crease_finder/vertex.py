@@ -29,15 +29,9 @@ class Angle:
 @dataclass
 class Vertex:
 	name: str
-	edges: list[Angle] = None
-	folds: any = None
+	edges: list[Angle]
 
 	def __post_init__(self):
-		if self.edges != None:
-			self.set_edges(self.edges)
-
-	def set_edges(self, edges):
-		self.edges = edges
 		angle = sum(self.get_angles())
 		_verify_kawasaki(self.get_angles())
 		if (angle != 360):
