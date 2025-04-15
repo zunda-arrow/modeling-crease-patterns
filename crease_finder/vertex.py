@@ -26,9 +26,6 @@ class Angle:
 	# The edge this vertex is one, or none if it touches the edge of the paper
 	edge: Edge | None = None
 
-	# This program only looks for one solution set.
-	fold_type: 'M' | 'V' | 'unknown' = 'unknown'
-
 @dataclass
 class Vertex:
 	name: str
