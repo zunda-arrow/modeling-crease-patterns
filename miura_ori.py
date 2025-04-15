@@ -16,12 +16,12 @@ def fold_ori(n, m):
 	for i in range(max_n):
 		vertical_edges.append([])
 		for j in range(max_n):
-			vertical_edges[-1].append(Edge(f"{i},{j} to {j},{i + 1}"))
+			vertical_edges[-1].append(Edge(f"{j},{i} to {j},{i + 1}"))
 
 	for j in range(max_n):
 		horizontal_edges.append([])
 		for i in range(max_n):
-			horizontal_edges[-1].append(Edge(f"{i},{j} to {j + 1},{i}"))
+			horizontal_edges[-1].append(Edge(f"{j},{i} to {j + 1},{i}"))
 
 	verticies = []
 
@@ -29,32 +29,57 @@ def fold_ori(n, m):
 		for j in range(m):
 			angles = []
 
-			# Bottom Edge
-			if i < n:
-				angles.append(Angle(120, vertical_edges[i][j]))
-			else:
-				angles.append(Angle(120))
+			if i % 2 == 0:
+				# Bottom Edge
+				if i < n:
+					angles.append(Angle(120, vertical_edges[i][j]))
+				else:
+					angles.append(Angle(120))
 
-			# Right Edge
-			if j < n:
-				angles.append(Angle(60, horizontal_edges[i][j]))
-			else:
-				angles.append(Angle(60))
-			
-			# Top Edge
-			if i > 0:
-				angles.append(Angle(60, vertical_edges[i - 1][j]))
-			else:
-				angles.append(Angle(60))
+				# Right Edge
+				if j < n:
+					angles.append(Angle(60, horizontal_edges[i][j]))
+				else:
+					angles.append(Angle(60))
+				
+				# Top Edge
+				if i > 0:
+					angles.append(Angle(60, vertical_edges[i - 1][j]))
+				else:
+					angles.append(Angle(60))
 
-			# Left Edge
-			if j > 0:
-				angles.append(Angle(120, horizontal_edges[i][j - 1]))
+				# Left Edge
+				if j > 0:
+					angles.append(Angle(120, horizontal_edges[i][j - 1]))
+				else:
+					angles.append(Angle(120))
 			else:
-				angles.append(Angle(120))
+				# Right Edge
+				if j < n:
+					angles.append(Angle(120, horizontal_edges[i][j]))
+				else:
+					angles.append(Angle(120))
+				
+				# Top Edge
+				if i > 0:
+					angles.append(Angle(120, vertical_edges[i - 1][j]))
+				else:
+					angles.append(Angle(120))
+
+				# Left Edge
+				if j > 0:
+					angles.append(Angle(60, horizontal_edges[i][j - 1]))
+				else:
+					angles.append(Angle(60))
+
+				# Bottom Edge
+				if i < n:
+					angles.append(Angle(60, vertical_edges[i][j]))
+				else:
+					angles.append(Angle(60))
 
 			verticies.append(Vertex(f"{i},{j}", angles))
-
+	
 	return verticies
 
 # From https://oeis.org/A078099
