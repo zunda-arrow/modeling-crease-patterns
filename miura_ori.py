@@ -99,10 +99,12 @@ def main():
 	m = int(sys.argv[1])
 	n = int(sys.argv[2])
 
-	if m < 1:
+	if m < 2:
 		print("Minimum width is 2")
-	if n < 1:
+		return
+	if n < 2:
 		print("Minimum height is 2")
+		return
 
 	# We subtract one because we do not want to take the outside verticies into account
 	folds = phantom_fold(fold_ori(m - 1,n - 1))
