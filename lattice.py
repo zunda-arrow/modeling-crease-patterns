@@ -1,3 +1,5 @@
+# Usage: python latticepy <width> <height>
+
 from crease_finder import Vertex, Edge, Angle, phantom_fold
 from pprint import pprint
 import sys
@@ -55,8 +57,16 @@ def fold_lattice(n, m):
 	return verticies
 
 def main():
+	if len(sys.argv) < 3:
+		print("Usage: `python lattice.py <width> <height>`")
+
 	m = int(sys.argv[1])
 	n = int(sys.argv[2])
+
+	if m < 1:
+		print("Minimum width is 2")
+	if n < 1:
+		print("Minimum height is 2")
 
 	# We subtract one because we do not want to take the outside verticies into account
 	folds = phantom_fold(fold_lattice(m - 1,n - 1))
