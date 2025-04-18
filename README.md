@@ -1,6 +1,6 @@
 ## Modeling Crease Patterns
 
-This program finds crease patterns in a foldable grid.
+This program finds mountain valley assingmnets to be flat folding candidates in a given crease pattern.
 
 - `lattice.py` - Fold a stamp grid given a size as the program arguments.
 - `mirua_ori.py` - Example for the miura ori given a size as the program arguments.
